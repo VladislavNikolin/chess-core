@@ -11,13 +11,13 @@ int main(int argc, char const *argv[])
     auto board = core::board::board();
     auto win = board.win();
 
-    while ((winner = board.win()) == core::win::NO)
+    while ((win = board.win()) == core::win::NO)
     {
         board.apply(white.bestmove(board.position()));
         board.apply(black.bestmove(board.position()));
     }
 
-    std::cout << "and the winner is... " << (int) winner << std::endl;
+    std::cout << "and the winner is... " << (int) win << std::endl;
 
     return 0;
 }
