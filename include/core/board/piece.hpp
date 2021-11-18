@@ -1,28 +1,38 @@
 #pragma once
 
+#include "core/board/move.hpp"
+#include "core/board/point.hpp"
+#include "core/board/side.hpp"
+
 #include <array>
 #include <cstdint>
+#include <vector>
 
 namespace core::board
 {
-    enum class piece : uint8_t
+    class piece
     {
-        NONE = 0,
+    public:
+        enum piece_t : uint8_t
+        {
+            NONE,
+            KING,
+            QUEEN,
+            ROOK,
+            BISHOP,
+            KNIGHT,
+            PAWN,
+        };
 
-        W_KING,
-        W_QUEEN,
-        W_ROOK,
-        W_BISHOP,
-        W_KNIGHT,
-        W_PAWN,
+    private:
+        piece_t _piece;
+        core::board::side _side;
 
-        B_KING,
-        B_QUEEN,
-        B_ROOK,
-        B_BISHOP,
-        B_KNIGHT,
-        B_PAWN,
+    public:
+        piece(piece_t piece, core::board::side side);
+        bool is_my(core::board::side side) const;
+        std::vector<core::board::move> get_moves(core::board::point from) const;
     };
 
-    using pieces = std::array<core::board::piece, 64>;
+    using pieces = std::array<piece, 64>;
 } // namespace core::board

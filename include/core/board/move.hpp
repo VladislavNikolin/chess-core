@@ -1,17 +1,15 @@
 #pragma once
 
+#include <tuple>
+
 #include "core/board/point.hpp"
 
 namespace core::board
 {
-    class move
+    // reference: https://en.wikipedia.org/wiki/Algebraic_notation_(chess)
+    struct move
     {
-    public:
-        move(core::board::point from, core::board::point to);
-        core::board::point from();
-        core::board::point to();
-    private:
-        core::board::point _from;
-        core::board::point _to;
+        core::board::point from;
+        core::board::point to;
     };
 } // namespace core::board

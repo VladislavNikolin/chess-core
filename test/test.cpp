@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "core/board/board.hpp"
+#include "core/game/game.hpp"
 #include "core/player/ai.hpp"
 #include "core/player/dummy.hpp"
 
@@ -8,16 +8,15 @@ int main(int argc, char const *argv[])
 {
     auto white = core::player::ai();
     auto black = core::player::dummy();
-    auto board = core::board::board();
-    auto win = board.win();
+    auto game = core::game::game();
 
-    while ((win = board.win()) == core::win::NO)
+    while (!game.finished())
     {
-        board.apply(white.bestmove(board.position()));
-        board.apply(black.bestmove(board.position()));
+        game.turn(white.bestmove(game.position()));
+        game.turn(black.bestmove(game.position()));
     }
 
-    std::cout << "and the winner is... " << (int) win << std::endl;
+    std::cout << "and the winner is... " << (int) game.winner() << std::endl;
 
     return 0;
 }

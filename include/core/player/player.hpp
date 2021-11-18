@@ -8,6 +8,6 @@ namespace core::player
     class player
     {
     public:
-        virtual core::board::move bestmove(core::board::position position);
+        virtual core::board::move bestmove(core::board::position position) = 0;
     };
 } // namespace core::player
