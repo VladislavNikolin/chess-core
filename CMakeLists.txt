@@ -2,11 +2,9 @@ cmake_minimum_required(VERSION 3.20)
 
 set(CMAKE_CXX_STANDARD 20)
 
-list(APPEND CMAKE_FIND_ROOT_PATH "3rdparty/range-v3")
-
 project(core CXX)
 
-find_package(range-v3 REQUIRED)
+add_subdirectory("3rdparty/range-v3")
 
 file(GLOB_RECURSE CORE_SRC CONFIGURE_DEPENDS "source/*.hpp" "source/*.cpp")
 add_library(core ${CORE_SRC})

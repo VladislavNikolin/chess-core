@@ -8,8 +8,6 @@
 #include "core/board/piece.hpp"
 #include "core/board/side.hpp"
 
-#include "range/v3/view.hpp"
-
 namespace core::board
 {
     // reference: https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation

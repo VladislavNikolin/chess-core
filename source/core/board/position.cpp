@@ -1,5 +1,7 @@
 #include "core/board/position.hpp"
 
+#include "range/v3/view.hpp"
+
 void core::board::position::apply(core::board::move move)
 {
 	_side = !_side;
