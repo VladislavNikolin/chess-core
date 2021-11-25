@@ -17,5 +17,5 @@ core::board::side core::board::side::operator!() const
 
 bool core::board::side::operator==(const side& other) const
 {
-    other._side == _side;
+    return other._side == _side;
 }
