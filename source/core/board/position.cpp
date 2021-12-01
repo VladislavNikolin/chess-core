@@ -5,6 +5,14 @@
 void core::board::position::apply(core::board::move move)
 {
 	_side = !_side;
+	core::board::piece::size_type n = _xy2n(move.from);
+	core::board::piece _piece = _pieces(n);
+
+	_pieces[n] = core::board::piece(core::board::piece::NONE, core::board::side::NONE);
+
+	n = _xy2n(move.from);
+
+	_pieces[n] = _piece;
 }
 
 std::vector<core::board::move> core::board::position::moves() const
@@ -38,5 +46,5 @@ core::board::point core::board::position::_n2xy(core::board::pieces::size_type n
 
 core::board::pieces::size_type core::board::position::_xy2n(core::board::point xy) const
 {
-	return xy.y * 8 + xy.x;
+	return xy.y * 8 + xy.x - 1;
 }
