@@ -64,28 +64,44 @@ std::vector<core::board::move> core::board::piece::get_moves(core::board::point 
 		break;
 
 	case KNIGHT:
-			if (from.x + 2 <= max_pos) {
+		if (from.x + 2 <= max_pos) {
+			if (from.y <= 1) moves.push_back({ from, { from.x + 2, from.y - 1 } });
+			if (from.y + 1 <= max_pos) moves.push_back({ from, { from.x + 2, from.y + 1 } });
+		}
 
-			}
-			{ from, { from.x + 2, from.y - 1 } },
-			{ from, { from.x + 2, from.y + 1 } },
-			{ from, { from.x - 2, from.y - 1 } },
-			{ from, { from.x - 2, from.y + 1 } },
-			{ from, { from.x + 1, from.y + 2 } },
-			{ from, { from.x + 1, from.y - 2 } },
-			{ from, { from.x - 1, from.y + 2 } },
-			{ from, { from.x - 1, from.y - 2 } },
+		if (from.x <= 2) {
+			if (from.y <= 1) moves.push_back({ from, { from.x - 2, from.y - 1 } });
+			if (from.y + 1 <= max_pos) moves.push_back({ from, { from.x - 2, from.y + 1 } });
+		}
 
+		if (from.x + 1 <= max_pos) {
+			if (from.y <= 2) moves.push_back({ from, { from.x + 1, from.y - 2 } });
+			if (from.y + 2 <= max_pos) moves.push_back({ from, { from.x + 1, from.y + 2 } });
+		}
+
+		if (from.x <= 1) {
+			if (from.y <= 2) moves.push_back({ from, { from.x - 1, from.y - 2 } });
+			if (from.y + 2 <= max_pos) moves.push_back({ from, { from.x - 1, from.y + 2 } });
+		}
+
+		break
 	case PAWN:
 		if (_side == core::board::side::WHITE) {
 			moves.push_back({ from, { from.x, from.y + 1 } });
 			if (from.y == min_pos + 1) moves.push_back({ from, { from.x, from.y + 2 } });
+
+			if (from.x != min_pos) moves.push_back({ from, { from.x - 1, from.y + 1 } });
+			if (from.x != max_pos) moves.push_back({ from, { from.x + 1, from.y + 1 } });
 		}
-																				//Пока не едят
+
 		if (_side == core::board::side::BLACK) {
 			moves.push_back({ from, { from.x, from.y - 1 } });
 			if (from.y == max_pos - 1) moves.push_back({ from, { from.x, from.y - 2 } });
+
+			if (from.x != min_pos) moves.push_back({ from, { from.x - 1, from.y - 1 } });
+			if (from.x != max_pos) moves.push_back({ from, { from.x + 1, from.y - 1 } });
 		}
+		break;
 	}
 
 	return moves;
