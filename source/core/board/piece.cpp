@@ -16,139 +16,57 @@ std::vector<core::board::move> core::board::piece::get_moves(core::board::point 
 	case NONE:
 		moves = std::vector<core::board::move>{};
 	case KING:
-		moves = std::vector<core::board::move>{
-			{from, {from.x + 1, from.y}},
-			{from, {from.x - 1, from.y}},
-			{from, {from.x, from.y + 1}},
-			{from, {from.x, from.y - 1}},
-			{from, {from.x + 1, from.y + 1}},
-			{from, {from.x + 1, from.y - 1}},
-			{from, {from.x - 1, from.y + 1}},
-			{from, {from.x - 1, from.y - 1}},
-		};
+		for (int x = -1; x < 2; x++) {
+			for (int y = -1; y < 2; y++) {
+				if ((from.x == min_pos && x == -1) 
+					|| from.y == min_pos && y == -1)
+					|| (from.x == max_pos && x == 1) 
+					|| (from.y == max_pos && y == 1)
+					|| (x == 0 && y == 0)) continue;
+
+					moves.push_back({ from, { from.x + x, from.y + y } });
+			}
+		}
+		break;
+
 	case QUEEN:
-		moves = std::vector<core::board::move>{
-			{ from, { from.x + 1, from.y } },
-			{ from, { from.x + 2, from.y } },
-			{ from, { from.x + 3, from.y } },
-			{ from, { from.x + 4, from.y } },
-			{ from, { from.x + 5, from.y } },
-			{ from, { from.x + 6, from.y } },
-			{ from, { from.x + 7, from.y } },
-			{ from, { from.x, from.y + 1 } },
-			{ from, { from.x, from.y + 2 } },
-			{ from, { from.x, from.y + 3 } },
-			{ from, { from.x, from.y + 4 } },
-			{ from, { from.x, from.y + 5 } },
-			{ from, { from.x, from.y + 6 } },
-			{ from, { from.x, from.y + 7 } },
-			{ from, { from.x - 1, from.y } },
-			{ from, { from.x - 2, from.y } },
-			{ from, { from.x - 3, from.y } },
-			{ from, { from.x - 4, from.y } },
-			{ from, { from.x - 5, from.y } },
-			{ from, { from.x - 6, from.y } },
-			{ from, { from.x - 7, from.y } },
-			{ from, { from.x, from.y - 1 } },
-			{ from, { from.x, from.y - 2 } },
-			{ from, { from.x, from.y - 3 } },
-			{ from, { from.x, from.y - 4 } },
-			{ from, { from.x, from.y - 5 } },
-			{ from, { from.x, from.y - 6 } },
-			{ from, { from.x, from.y - 7 } },
-			{ from, { from.x + 1, from.y + 1 } },
-			{ from, { from.x + 2, from.y + 2 } },
-			{ from, { from.x + 3, from.y + 3 } },
-			{ from, { from.x + 4, from.y + 4 } },
-			{ from, { from.x + 5, from.y + 5 } },
-			{ from, { from.x + 6, from.y + 6 } },
-			{ from, { from.x + 7, from.y + 7 } },
-			{ from, { from.x - 1, from.y + 1 } },
-			{ from, { from.x - 2, from.y + 2 } },
-			{ from, { from.x - 3, from.y + 3 } },
-			{ from, { from.x - 4, from.y + 4 } },
-			{ from, { from.x - 5, from.y + 5 } },
-			{ from, { from.x - 6, from.y + 6 } },
-			{ from, { from.x - 7, from.y + 7 } },
-			{ from, { from.x + 1, from.y - 1 } },
-			{ from, { from.x + 2, from.y - 2 } },
-			{ from, { from.x + 3, from.y - 3 } },
-			{ from, { from.x + 4, from.y - 4 } },
-			{ from, { from.x + 5, from.y - 5 } },
-			{ from, { from.x + 6, from.y - 6 } },
-			{ from, { from.x + 7, from.y - 7 } },
-			{ from, { from.x - 1, from.y - 1 } },
-			{ from, { from.x - 2, from.y - 2 } },
-			{ from, { from.x - 3, from.y - 3 } },
-			{ from, { from.x - 4, from.y - 4 } },
-			{ from, { from.x - 5, from.y - 5 } },
-			{ from, { from.x - 6, from.y - 6 } },
-			{ from, { from.x - 7, from.y - 7 } },
-		};
+		for (int i = 1; i < 8; i++) {
+			if (from.x + i <= max_pos) moves.push_back({ from, { from.x + i, from.y} });
+			if (from.x <= i) moves.push_back({ from, { from.x - i, from.y} });
+			if (from.y + i <= max_pos) moves.push_back({ from, { from.x, from.y + i } });
+			if (from.y <= i) moves.push_back({ from, { from.x, from.y - i } });
+		}
+
+		for (int i = 1; i < 8; i++) {
+			if (from.x + i <= max_pos && from.y + i < m = x_pos) moves.push_back({ from, { from.x + i, from.y + i } });
+			if (from.x <= i && from.y + i <= max_pos) moves.push_back({ from, { from.x - i, from.y + i } });
+			if (from.x + i <= max_pos && from.y <= i) moves.push_back({ from, { from.x + i, from.y - i } });
+			if (from.x <= i && from.y <= i) moves.push_back({ from, { from.x - i, from.y - i } });
+		}
+		break;
+
 	case ROOK:
-		moves = std::vector<core::board::move>{
-			{ from, { from.x + 1, from.y } },
-			{ from, { from.x + 2, from.y } },
-			{ from, { from.x + 3, from.y } },
-			{ from, { from.x + 4, from.y } },
-			{ from, { from.x + 5, from.y } },
-			{ from, { from.x + 6, from.y } },
-			{ from, { from.x + 7, from.y } },
-			{ from, { from.x, from.y + 1 } },
-			{ from, { from.x, from.y + 2 } },
-			{ from, { from.x, from.y + 3 } },
-			{ from, { from.x, from.y + 4 } },
-			{ from, { from.x, from.y + 5 } },
-			{ from, { from.x, from.y + 6 } },
-			{ from, { from.x, from.y + 7 } },
-			{ from, { from.x - 1, from.y } },
-			{ from, { from.x - 2, from.y } },
-			{ from, { from.x - 3, from.y } },
-			{ from, { from.x - 4, from.y } },
-			{ from, { from.x - 5, from.y } },
-			{ from, { from.x - 6, from.y } },
-			{ from, { from.x - 7, from.y } },
-			{ from, { from.x, from.y - 1 } },
-			{ from, { from.x, from.y - 2 } },
-			{ from, { from.x, from.y - 3 } },
-			{ from, { from.x, from.y - 4 } },
-			{ from, { from.x, from.y - 5 } },
-			{ from, { from.x, from.y - 6 } },
-			{ from, { from.x, from.y - 7 } },
-		};
+		for (int i = 1; i < 8; i++) {
+			if (from.x + i <= max_pos) moves.push_back({ from, { from.x + i, from.y} });
+			if (from.x <= i) moves.push_back({ from, { from.x - i, from.y} });
+			if (from.y + i <= max_pos) moves.push_back({ from, { from.x, from.y + i } });
+			if (from.y <= i) moves.push_back({ from, { from.x, from.y - i } });
+		}
+		break;
+
 	case BISHOP:
-		moves = std::vector<core::board::move>{
-			{ from, { from.x + 1, from.y + 1 } },
-			{ from, { from.x + 2, from.y + 2 } },
-			{ from, { from.x + 3, from.y + 3 } },
-			{ from, { from.x + 4, from.y + 4 } },
-			{ from, { from.x + 5, from.y + 5 } },
-			{ from, { from.x + 6, from.y + 6 } },
-			{ from, { from.x + 7, from.y + 7 } },
-			{ from, { from.x - 1, from.y + 1 } },
-			{ from, { from.x - 2, from.y + 2 } },
-			{ from, { from.x - 3, from.y + 3 } },
-			{ from, { from.x - 4, from.y + 4 } },
-			{ from, { from.x - 5, from.y + 5 } },
-			{ from, { from.x - 6, from.y + 6 } },
-			{ from, { from.x - 7, from.y + 7 } },
-			{ from, { from.x + 1, from.y - 1 } },
-			{ from, { from.x + 2, from.y - 2 } },
-			{ from, { from.x + 3, from.y - 3 } },
-			{ from, { from.x + 4, from.y - 4 } },
-			{ from, { from.x + 5, from.y - 5 } },
-			{ from, { from.x + 6, from.y - 6 } },
-			{ from, { from.x + 7, from.y - 7 } },
-			{ from, { from.x - 1, from.y - 1 } },
-			{ from, { from.x - 2, from.y - 2 } },
-			{ from, { from.x - 3, from.y - 3 } },
-			{ from, { from.x - 4, from.y - 4 } },
-			{ from, { from.x - 5, from.y - 5 } },
-			{ from, { from.x - 6, from.y - 6 } },
-			{ from, { from.x - 7, from.y - 7 } },
-		};
+		for (int i = 1; i < 8; i++) {
+			if (from.x + i <= max_pos && from.y + i < m=x_pos) moves.push_back({ from, { from.x + i, from.y + i } });
+			if (from.x <= i && from.y + i <= max_pos) moves.push_back({ from, { from.x - i, from.y + i } });
+			if (from.x + i <= max_pos && from.y <= i) moves.push_back({ from, { from.x + i, from.y - i } });
+			if (from.x <= i && from.y <= i) moves.push_back({ from, { from.x - i, from.y - i } });
+		}
+		break;
+
 	case KNIGHT:
-		moves = std::vector<core::board::move>{
+			if (from.x + 2 <= max_pos) {
+
+			}
 			{ from, { from.x + 2, from.y - 1 } },
 			{ from, { from.x + 2, from.y + 1 } },
 			{ from, { from.x - 2, from.y - 1 } },
@@ -157,16 +75,16 @@ std::vector<core::board::move> core::board::piece::get_moves(core::board::point 
 			{ from, { from.x + 1, from.y - 2 } },
 			{ from, { from.x - 1, from.y + 2 } },
 			{ from, { from.x - 1, from.y - 2 } },
-		};
+
 	case PAWN:
 		if (_side == core::board::side::WHITE) {
 			moves.push_back({ from, { from.x, from.y + 1 } });
-			if (from.y == 2) moves.push_back({ from, { from.x, from.y + 2 } });
+			if (from.y == min_pos + 1) moves.push_back({ from, { from.x, from.y + 2 } });
 		}
 																				//Пока не едят
 		if (_side == core::board::side::BLACK) {
 			moves.push_back({ from, { from.x, from.y - 1 } });
-			if (from.y == 7) moves.push_back({ from, { from.x, from.y - 2 } });
+			if (from.y == max_pos - 1) moves.push_back({ from, { from.x, from.y - 2 } });
 		}
 	}
 
