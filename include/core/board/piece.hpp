@@ -28,6 +28,9 @@ namespace core::board
         piece_t _piece;
         core::board::side _side;
 
+        const max_pos = 8;
+        const min_pos = 1;
+
     public:
         piece(piece_t piece, core::board::side side);
         bool is_my(core::board::side side) const;
