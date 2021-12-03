@@ -7,6 +7,11 @@ bool core::board::piece::is_my(core::board::side side) const
 	return side == _side;
 }
 
+piece_t core::board::piece::get_piece_t() const
+{
+	return _piece;
+}
+
 std::vector<core::board::move> core::board::piece::get_moves(core::board::point from) const
 {
 	std::vector<core::board::move> moves;
@@ -84,7 +89,7 @@ std::vector<core::board::move> core::board::piece::get_moves(core::board::point 
 			if (from.y + 2 <= max_pos) moves.push_back({ from, { from.x - 1, from.y + 2 } });
 		}
 
-		break
+		break;
 	case PAWN:
 		if (_side == core::board::side::WHITE) {
 			moves.push_back({ from, { from.x, from.y + 1 } });
