@@ -36,6 +36,44 @@ std::vector<core::board::move> core::board::position::moves() const
 
 bool core::board::position::_is_bad_move(core::board::move move) const
 {
+	core::board::pieces::size_type from_n = _xy2n(move.from);
+	core::board::pieces::size_type to_n = _xy2n(move.to);
+
+	if (_pieces[to_n].is_my(_side)) return true;
+
+	if (_pieces[from_n].get_piece_t() == core::board::piece::KNIGHT) return false;
+
+	if (_pieces[from_n].get_piece_t() == core::board::piece::KING) {
+		// checkmate, etc. there
+		return false;
+	}
+
+	if (_pieces[from_n].get_piece_t() == core::board::piece::PAWN) {
+		
+		if (move.from.x == move.to.x && _pieces[to_n].get_piece_t() == core::board::piece::NONE) {
+			if (_pieces[from_n].get_piece_t() == core::board::side::WHITE) {
+				if (move.to.y - move.from.y == 2) {
+					if (_pieces[_xy2n({ move.to.x, move.to.y - 1 }].get_piece_t() == core::board::piece::NONE) return false;
+					return true;
+				}
+				return false;
+			}
+			if (_pieces[from_n].get_piece_t() == core::board::side::BLACK) {
+				if (move.from.y - move.to.y == 2) {
+					if (_pieces[_xy2n({ move.to.x, move.to.y + 1 }].get_piece_t() == core::board::piece::NONE) return false;
+					return true;
+				}
+				return false;
+			}
+		}
+
+		if (_pieces[to_n].get_piece_t() == core::board::piece::NONE) return true; // need add the take on the pass
+
+		return false;
+	}
+
+	// ROOK QUEEN BISHOP logic
+
 	return false;
 }
 
