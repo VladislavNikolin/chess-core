@@ -34,6 +34,7 @@ namespace core::board
     public:
         piece(piece_t piece, core::board::side side);
         bool is_my(core::board::side side) const;
+        piece_t get_piece_t() const;
         std::vector<core::board::move> get_moves(core::board::point from) const;
     };
 
