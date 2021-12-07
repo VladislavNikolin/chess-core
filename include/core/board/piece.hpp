@@ -34,6 +34,7 @@ namespace core::board
 
     public:
         piece(piece_t piece, core::board::side side);
+        piece operator=(const core::board::piece& other);
         bool is_my(core::board::side side) const;
         bool was_moving() const;
         piece_t get_piece_t() const;

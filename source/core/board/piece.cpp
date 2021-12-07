@@ -4,11 +4,13 @@ core::board::piece::piece(piece_t piece, core::board::side side) : _piece(piece)
 	moving = false;
 }
 
-bool core::board::piece::operator=(const core::board::piece& other)
+core::board::piece core::board::piece::operator=(const core::board::piece& other)
 {
 	_piece = other._piece;
 	_side = other._side;
 	moving = other.moving;
+
+	return *this;
 }
 
 bool core::board::piece::is_my(core::board::side side) const
