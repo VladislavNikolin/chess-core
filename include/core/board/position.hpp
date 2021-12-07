@@ -85,9 +85,15 @@ namespace core::board
     public:
         void apply(core::board::move move);
         std::vector<core::board::move> moves() const;
-    
+
     private:
         bool _is_bad_move(move) const;
+        bool _pawn_ckeck(move) const;
+        bool _knight_ckeck(move) const;
+        bool _king_ckeck(move) const;
+        bool _rook_ckeck(move) const;
+        bool _bishop_ckeck(move) const;
+        bool _queen_ckeck(move) const;
         core::board::point _n2xy(core::board::pieces::size_type n) const;
         core::board::pieces::size_type _xy2n(core::board::point xy) const;
     };
