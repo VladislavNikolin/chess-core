@@ -11,5 +11,7 @@ namespace core::board
     {
         core::board::point from;
         core::board::point to;
+
+        bool operator==(const move &other) const;
     };
 } // namespace core::board

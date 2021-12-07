@@ -8,5 +8,7 @@ namespace core::board
     {
         uint8_t x;
         uint8_t y;
+
+        bool operator==(const point &other) const;
     };
 } // namespace core::board
