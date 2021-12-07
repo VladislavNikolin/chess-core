@@ -28,12 +28,14 @@ namespace core::board
         piece_t _piece;
         core::board::side _side;
 
+        bool moving;
         const int max_pos = 8;
         const int min_pos = 1;
 
     public:
         piece(piece_t piece, core::board::side side);
         bool is_my(core::board::side side) const;
+        bool was_moving() const;
         piece_t get_piece_t() const;
         std::vector<core::board::move> get_moves(core::board::point from) const;
     };

@@ -6,13 +6,17 @@ void core::board::position::apply(core::board::move move)
 {
 	_side = !_side;
 	core::board::pieces::size_type n = _xy2n(move.from);
-	core::board::piece _piece = _pieces[n];
+	last_piece = _pieces[n];
 
-	//_pieces[n] = core::board::piece(core::board::piece::NONE, core::board::side::NONE);
+	_pieces[n] = core::board::piece(core::board::piece::NONE, core::board::side::NONE);
 
-	n = _xy2n(move.from);
+	n = _xy2n(move.to);
 
-	//_pieces[n] = _piece;
+	_pieces[n] = last_piece;
+
+	//рокировка и взятие на проходе
+
+	last_move = move;
 }
 
 std::vector<core::board::move> core::board::position::moves() const
@@ -79,7 +83,17 @@ bool core::board::position::_pawn_ckeck(core::board::move move) const
 		}
 	}
 
-	if (_pieces[to_n].get_piece_t() == core::board::piece::NONE) return true; // need add the take on the pass
+	if (_pieces[to_n].get_piece_t() == core::board::piece::PAWN && (last_move.from.x == move.to.x)
+		&& (last_move.from.y == move.to.y + 1) && (last_move.to.y == move.from.y)
+		&& (last_move.from.y == 7) && last_piece.get_piece_t() == core::board::piece::PAWN
+		&& _pieces[to_n].is_my(core::board::side::WHITE)) return false;
+
+	if (_pieces[to_n].get_piece_t() == core::board::piece::PAWN && (last_move.from.x == move.to.x)
+		&& (last_move.from.y == move.to.y - 1) && (last_move.to.y == move.from.y)
+		&& (last_move.from.y == 2) && last_piece.get_piece_t() == core::board::piece::PAWN
+		&& _pieces[to_n].is_my(core::board::side::BLACK)) return false;
+
+	if (_pieces[to_n].get_piece_t() == core::board::piece::NONE) return true;;
 
 	return false;
 }
@@ -91,6 +105,14 @@ bool core::board::position::_knight_ckeck(core::board::move move) const
 
 bool core::board::position::_king_ckeck(core::board::move move) const
 {
+	if (move.from.x == 5 && move.to.x == 3) {
+		if (!_pieces[_xy2n({ move.from.x, move.from.y })].was_moving() && !_pieces[_xy2n({ 1, move.from.y })].was_moving()) return true;
+	}
+
+	if (move.from.x == 5 && move.to.x == 7) {
+		if (!_pieces[_xy2n({ move.from.x, move.from.y })].was_moving() && !_pieces[_xy2n({ 8, move.from.y })].was_moving()) return true;
+	}
+
 	return false;
 }
 
