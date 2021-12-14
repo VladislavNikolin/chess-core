@@ -17,10 +17,22 @@ target_link_libraries(core
     range-v3::range-v3
 )
 
-add_executable(test
-    test/test.cpp
+enable_testing()
+
+include(GoogleTest)
+include(FetchContent)
+
+FetchContent_Declare(googletest
+  URL
+    https://github.com/google/googletest/archive/609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
 )
-target_link_libraries(test
+FetchContent_MakeAvailable(googletest)
+
+file(GLOB_RECURSE CORE_TEST_SRC CONFIGURE_DEPENDS "test/*.hpp" "test/*.cpp")
+add_executable(core_test ${CORE_TEST_SRC})
+target_link_libraries(core_test
   PRIVATE
     core
+    gtest_main
 )
+gtest_discover_tests(core_test)
