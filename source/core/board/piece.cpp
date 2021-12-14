@@ -1,6 +1,17 @@
 #include "core/board/piece.hpp"
 
-core::board::piece::piece(piece_t piece, core::board::side side) : _piece(piece), _side(side) {}
+core::board::piece::piece(piece_t piece, core::board::side side) : _piece(piece), _side(side) {
+	moving = false;
+}
+
+core::board::piece core::board::piece::operator=(const core::board::piece& other)
+{
+	_piece = other._piece;
+	_side = other._side;
+	moving = other.moving;
+
+	return *this;
+}
 
 bool core::board::piece::is_my(core::board::side side) const
 {
@@ -12,6 +23,11 @@ core::board::piece::piece_t core::board::piece::get_piece_t() const
 	return _piece;
 }
 
+bool core::board::piece::was_moving() const
+{
+	return moving;
+}
+
 std::vector<core::board::move> core::board::piece::get_moves(core::board::point from) const
 {
 	std::vector<core::board::move> moves;
@@ -20,6 +36,7 @@ std::vector<core::board::move> core::board::piece::get_moves(core::board::point 
 	{
 	case NONE:
 		moves = std::vector<core::board::move>{};
+		break;
 	case KING:
 		for (int x = -1; x < 2; x++) {
 			for (int y = -1; y < 2; y++) {
@@ -33,7 +50,15 @@ std::vector<core::board::move> core::board::piece::get_moves(core::board::point 
 			}
 		}
 
-		//if (_side == core::board::side::WHITE && from.x)
+		if (_side == core::board::side::WHITE && from.x == 5 && from.y == 1) {
+			moves.push_back({ from, { static_cast <uint8_t> (from.x - 2), (from.y) } });
+			moves.push_back({ from, { static_cast <uint8_t> (from.x + 2), (from.y) } });
+		}
+
+		if (_side == core::board::side::BLACK && from.x == 5 && from.y == 8) {
+			moves.push_back({ from, { static_cast <uint8_t> (from.x - 2), (from.y) } });
+			moves.push_back({ from, { static_cast <uint8_t> (from.x + 2), (from.y) } });
+		}
 		break;
 
 	case QUEEN:
