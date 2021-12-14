@@ -25,16 +25,18 @@ namespace core::board
         };
 
     private:
-        piece_t _piece;
-        core::board::side _side;
+        piece_t _piece = NONE;
+        core::board::side _side = core::board::side::NONE;
 
-        bool moving;
+        bool moving = false;
         const int max_pos = 8;
         const int min_pos = 1;
 
     public:
+        piece();
+        piece(const piece &other);
         piece(piece_t piece, core::board::side side);
-        piece operator=(const core::board::piece& other);
+        piece operator=(const core::board::piece &other);
         bool is_my(core::board::side side) const;
         bool was_moving() const;
         piece_t get_piece_t() const;

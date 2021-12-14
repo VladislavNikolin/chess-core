@@ -7,6 +7,7 @@
 #include "RLnet.h"
 #include "neural/neuralnetwork.h"
 
+double LEARNING_RATE = 0.01;
 QModel *m = new QModel({10,20,10,2},0.01);
 
 core::board::move core::player::ai::bestmove(core::board::position position)
