@@ -1,0 +1,28 @@
+CC=gcc
+CFLAGS=-fPIC
+LDFLAGS=-shared
+FLAGL=-lpthread
+PATHL=./bin/
+PATHINC=./include
+NAMEL=libontconnection.so
+SOURCES=RLnet.cpp
+HEADERS=ont.h
+OBJECTS=$(SOURCES:.c=.o)
+
+all: $(NAMEL)
+	
+$(NAMEL): $(OBJECTS)
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $(PATHL)$(NAMEL) $(FLAGL)
+
+.SUFFIXES:
+.SUFFIXES: .c .o
+
+.c.o:
+	$(CC) $(CFLAGS) $< -c
+
+$(SRCS): $(HEADERS)
+	@touch $@
+
+clean:
+	rm $(OBJECTS)
+	rm -r $(PATHL)
