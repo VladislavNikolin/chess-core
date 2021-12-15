@@ -375,7 +375,16 @@ TEST(CoreBoardPieceTest, GetPieceTFunc)
 		black_rook.get_piece_t(),
 		core::board::piece::ROOK
 	);
+}
 
+TEST(CoreBoardPieceTest, PieceConstructor)
+{
+	core::board::piece white_pawn(core::board::piece::PAWN, core::board::side::WHITE);
+
+	EXPECT_EQ(
+		core::board::piece('P'),
+		white_pawn
+	);
 }
 
 
