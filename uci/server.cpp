@@ -19,6 +19,7 @@ void uci::server::start()
         std::getline(std::cin, line);
         std::stringstream request(line);
 
+        _log << line;
         std::string cmd;
         request >> cmd;
 
