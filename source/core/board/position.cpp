@@ -25,10 +25,10 @@ core::board::position::position(std::string fen)
 }
 
 void core::board::position::apply(core::board::move move)
-{
-    _side = !_side;
+{  
     core::board::pieces::size_type n = _xy2n(move.from);
     last_piece = _pieces[n];
+	_pieces[n].change_moving();
 
 	if (_pieces[_xy2n({ move.from.x, move.from.y })].get_piece_t() == core::board::piece::KING && _side == core::board::side::WHITE) {
 		w_king_pos.x = move.to.x;
@@ -40,15 +40,35 @@ void core::board::position::apply(core::board::move move)
 		b_king_pos.y = move.to.y;
 	}
 
+	if (move.from.x == 5 && move.to.x == 3 && _pieces[n].get_piece_t() == core::board::piece::KING) {
+		_pieces[_xy2n({ 4, move.from.y })] = _pieces[_xy2n({ 1, move.from.y })];
+		_pieces[_xy2n({ 1, move.from.y })] = core::board::piece(core::board::piece::NONE, core::board::side::NONE);
+	}
+
+	if (move.from.x == 5 && move.to.x == 7 && _pieces[n].get_piece_t() == core::board::piece::KING) {
+		_pieces[_xy2n({ 6, move.from.y })] = _pieces[_xy2n({ 8, move.from.y })];
+		_pieces[_xy2n({ 8, move.from.y })] = core::board::piece(core::board::piece::NONE, core::board::side::NONE);
+	}
+
+	if (_pieces[_xy2n({ move.to.x, move.to.y })].get_piece_t() == core::board::piece::PAWN && _pieces[n].get_piece_t() == core::board::piece::PAWN
+		&& move.to.x != move.from.x) {
+		if (_side == core::board::side::WHITE) {
+			_pieces[_xy2n({ move.to.x, static_cast <uint8_t> (move.to.y - 1 )})] = core::board::piece(core::board::piece::NONE, core::board::side::NONE);
+		}
+		else {
+			_pieces[_xy2n({ move.to.x, static_cast <uint8_t> (move.to.y + 1) })] = core::board::piece(core::board::piece::NONE, core::board::side::NONE);
+		}
+	}
+
 	_pieces[n] = core::board::piece(core::board::piece::NONE, core::board::side::NONE);
 
     n = _xy2n(move.to);
 
     _pieces[n] = last_piece;
 
-    //рокировка и взятие на проходе
-
     last_move = move;
+
+	_side = !_side;
 }
 
 std::vector<core::board::move> core::board::position::moves() const
@@ -101,6 +121,7 @@ bool core::board::position::_pawn_attack_filter(core::board::move move) const
 
 bool core::board::position::_is_bad_move(core::board::move move) const
 {
+	if (_pieces[_xy2n({ move.to.x, move.to.y })].is_my(_side)) return true;
 
 	switch (_pieces[_xy2n({ move.from.x, move.from.y })].get_piece_t())
 	{
@@ -191,11 +212,15 @@ bool core::board::position::_knight_check(core::board::move move) const
 bool core::board::position::_king_check(core::board::move move) const
 {
 	if (move.from.x == 5 && move.to.x == 3) {
-		if (!_pieces[_xy2n({ move.from.x, move.from.y })].was_moving() && !_pieces[_xy2n({ 1, move.from.y })].was_moving()) return true;
+		if (!_pieces[_xy2n({ move.from.x, move.from.y })].was_moving() && !_pieces[_xy2n({ 1, move.from.y })].was_moving()
+			&& _pieces[_xy2n({ 4, move.from.y })].get_piece_t() == _pieces[_xy2n({ 3, move.from.y })].get_piece_t() == _pieces[_xy2n({ 2, move.from.y })].get_piece_t()
+			== core::board::piece::NONE) return false;
 	}
 
 	if (move.from.x == 5 && move.to.x == 7) {
-		if (!_pieces[_xy2n({ move.from.x, move.from.y })].was_moving() && !_pieces[_xy2n({ 8, move.from.y })].was_moving()) return true;
+		if (!_pieces[_xy2n({ move.from.x, move.from.y })].was_moving() && !_pieces[_xy2n({ 8, move.from.y })].was_moving()
+			&& _pieces[_xy2n({ 6, move.from.y })].get_piece_t() == _pieces[_xy2n({ 7, move.from.y })].get_piece_t()
+			== core::board::piece::NONE) return false;
 	}
 
 	return false;

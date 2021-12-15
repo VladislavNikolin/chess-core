@@ -1,3 +1,4 @@
+#include "..\..\..\include\core\board\piece.hpp"
 #include "core/board/piece.hpp"
 
 core::board::piece::piece()
@@ -94,6 +95,11 @@ core::board::piece::piece_t core::board::piece::get_piece_t() const
 bool core::board::piece::was_moving() const
 {
     return moving;
+}
+
+void core::board::piece::change_moving()
+{
+	moving = true;
 }
 
 std::vector<core::board::move> core::board::piece::get_moves(core::board::point from) const
