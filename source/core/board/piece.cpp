@@ -21,6 +21,11 @@ core::board::piece core::board::piece::operator=(const core::board::piece &other
 	return *this;
 }
 
+bool core::board::piece::operator==(const piece& other) const 
+{
+	return (_piece == other._piece) && (_side == other._side);
+}
+
 bool core::board::piece::is_my(core::board::side side) const
 {
 	return side == _side;
@@ -71,90 +76,58 @@ std::vector<core::board::move> core::board::piece::get_moves(core::board::point 
 		break;
 
 	case QUEEN:
-		for (uint8_t i = 1; i < 8; i++)
-		{
-			if (from.x + i <= max_pos)
-				moves.push_back({from, {static_cast<uint8_t>(from.x + i), from.y}});
-			if (from.x <= i)
-				moves.push_back({from, {static_cast<uint8_t>(from.x - i), static_cast<uint8_t>(from.y)}});
-			if (from.y + i <= max_pos)
-				moves.push_back({from, {from.x, static_cast<uint8_t>(from.y + i)}});
-			if (from.y <= i)
-				moves.push_back({from, {from.x, static_cast<uint8_t>(from.y - i)}});
+		for (uint8_t i = 1; i < 8; i++) {
+			if (from.x + i <= max_pos) moves.push_back({ from, { static_cast <uint8_t> (from.x + i), from.y} });
+			if (from.x > i) moves.push_back({ from, { static_cast <uint8_t> (from.x - i), from.y} });
+			if (from.y + i <= max_pos) moves.push_back({ from, { from.x, static_cast <uint8_t> (from.y + i) } });
+			if (from.y > i) moves.push_back({ from, { from.x, static_cast <uint8_t> (from.y - i) } });
 		}
 
-		for (int i = 1; i < 8; i++)
-		{
-			if (from.x + i <= max_pos && from.y + i < max_pos)
-				moves.push_back({from, {static_cast<uint8_t>(from.x + i), static_cast<uint8_t>(from.y + i)}});
-			if (from.x <= i && from.y + i <= max_pos)
-				moves.push_back({from, {static_cast<uint8_t>(from.x - i), static_cast<uint8_t>(from.y + i)}});
-			if (from.x + i <= max_pos && from.y <= i)
-				moves.push_back({from, {static_cast<uint8_t>(from.x + i), static_cast<uint8_t>(from.y - i)}});
-			if (from.x <= i && from.y <= i)
-				moves.push_back({from, {static_cast<uint8_t>(from.x - i), static_cast<uint8_t>(from.y - i)}});
+		for (int i = 1; i < 8; i++) {
+			if (from.x + i <= max_pos && from.y + i < max_pos) moves.push_back({ from, { static_cast <uint8_t> (from.x + i), static_cast <uint8_t> (from.y + i) } });
+			if (from.x > i && from.y + i <= max_pos) moves.push_back({ from, { static_cast <uint8_t> (from.x - i), static_cast <uint8_t> (from.y + i) } });
+			if (from.x + i <= max_pos && from.y > i) moves.push_back({ from, { static_cast <uint8_t> (from.x + i), static_cast <uint8_t> (from.y - i) } });
+			if (from.x > i && from.y > i) moves.push_back({ from, { static_cast <uint8_t> (from.x - i), static_cast <uint8_t> (from.y - i) } });
 		}
 		break;
 
 	case ROOK:
-		for (int i = 1; i < 8; i++)
-		{
-			if (from.x + i <= max_pos)
-				moves.push_back({from, {static_cast<uint8_t>(from.x + i), from.y}});
-			if (from.x <= i)
-				moves.push_back({from, {static_cast<uint8_t>(from.x - i), from.y}});
-			if (from.y + i <= max_pos)
-				moves.push_back({from, {from.x, static_cast<uint8_t>(from.y + i)}});
-			if (from.y <= i)
-				moves.push_back({from, {from.x, static_cast<uint8_t>(from.y - i)}});
+		for (int i = 1; i < 8; i++) {
+			if (from.x + i <= max_pos) moves.push_back({ from, { static_cast <uint8_t> (from.x + i), from.y} });
+			if (from.x > i) moves.push_back({ from, { static_cast <uint8_t> (from.x - i), from.y} });
+			if (from.y + i <= max_pos) moves.push_back({ from, { from.x, static_cast <uint8_t> (from.y + i) } });
+			if (from.y > i) moves.push_back({ from, { from.x, static_cast <uint8_t> (from.y - i) } });
 		}
 		break;
 
 	case BISHOP:
-		for (int i = 1; i < 8; i++)
-		{
-			if (from.x + i <= max_pos && from.y + i < max_pos)
-				moves.push_back({from, {static_cast<uint8_t>(from.x + i), static_cast<uint8_t>(from.y + i)}});
-			if (from.x <= i && from.y + i <= max_pos)
-				moves.push_back({from, {static_cast<uint8_t>(from.x - i), static_cast<uint8_t>(from.y + i)}});
-			if (from.x + i <= max_pos && from.y <= i)
-				moves.push_back({from, {static_cast<uint8_t>(from.x + i), static_cast<uint8_t>(from.y - i)}});
-			if (from.x <= i && from.y <= i)
-				moves.push_back({from, {static_cast<uint8_t>(from.x - i), static_cast<uint8_t>(from.y - i)}});
+		for (int i = 1; i < 8; i++) {
+			if (from.x + i <= max_pos && from.y + i < max_pos) moves.push_back({ from, { static_cast <uint8_t> (from.x + i), static_cast <uint8_t> (from.y + i) } });
+			if (from.x > i && from.y + i <= max_pos) moves.push_back({ from, { static_cast <uint8_t> (from.x - i), static_cast <uint8_t> (from.y + i) } });
+			if (from.x + i <= max_pos && from.y > i) moves.push_back({ from, { static_cast <uint8_t> (from.x + i), static_cast <uint8_t> (from.y - i) } });
+			if (from.x > i && from.y > i) moves.push_back({ from, { static_cast <uint8_t> (from.x - i), static_cast <uint8_t> (from.y - i) } });
 		}
 		break;
 
 	case KNIGHT:
-		if (from.x + 2 <= max_pos)
-		{
-			if (from.y <= 1)
-				moves.push_back({from, {static_cast<uint8_t>(from.x + 2), static_cast<uint8_t>(from.y - 1)}});
-			if (from.y + 1 <= max_pos)
-				moves.push_back({from, {static_cast<uint8_t>(from.x + 2), static_cast<uint8_t>(from.y + 1)}});
+		if (from.x + 2 <= max_pos) {
+			if (from.y > 1) moves.push_back({ from, { static_cast <uint8_t> (from.x + 2), static_cast <uint8_t> (from.y - 1) } });
+			if (from.y + 1 <= max_pos) moves.push_back({ from, { static_cast <uint8_t> (from.x + 2), static_cast <uint8_t> (from.y + 1) } });
 		}
 
-		if (from.x <= 2)
-		{
-			if (from.y <= 1)
-				moves.push_back({from, {static_cast<uint8_t>(from.x - 2), static_cast<uint8_t>(from.y - 1)}});
-			if (from.y + 1 <= max_pos)
-				moves.push_back({from, {static_cast<uint8_t>(from.x - 2), static_cast<uint8_t>(from.y + 1)}});
+		if (from.x > 2) {
+			if (from.y > 1) moves.push_back({ from, { static_cast <uint8_t> (from.x - 2), static_cast <uint8_t> (from.y - 1) } });
+			if (from.y + 1 <= max_pos) moves.push_back({ from, { static_cast <uint8_t> (from.x - 2), static_cast <uint8_t> (from.y + 1) } });
 		}
 
-		if (from.x + 1 <= max_pos)
-		{
-			if (from.y <= 2)
-				moves.push_back({from, {static_cast<uint8_t>(from.x + 1), static_cast<uint8_t>(from.y - 2)}});
-			if (from.y + 2 <= max_pos)
-				moves.push_back({from, {static_cast<uint8_t>(from.x + 1), static_cast<uint8_t>(from.y + 2)}});
+		if (from.x + 1 <= max_pos) {
+			if (from.y > 2) moves.push_back({ from, { static_cast <uint8_t> (from.x + 1), static_cast <uint8_t> (from.y - 2) } });
+			if (from.y + 2 <= max_pos) moves.push_back({ from, { static_cast <uint8_t> (from.x + 1), static_cast <uint8_t> (from.y + 2) } });
 		}
 
-		if (from.x <= 1)
-		{
-			if (from.y <= 2)
-				moves.push_back({from, {static_cast<uint8_t>(from.x - 1), static_cast<uint8_t>(from.y - 2)}});
-			if (from.y + 2 <= max_pos)
-				moves.push_back({from, {static_cast<uint8_t>(from.x - 1), static_cast<uint8_t>(from.y + 2)}});
+		if (from.x > 1) {
+			if (from.y > 2) moves.push_back({ from, { static_cast <uint8_t> (from.x - 1), static_cast <uint8_t> (from.y - 2) } });
+			if (from.y + 2 <= max_pos) moves.push_back({ from, { static_cast <uint8_t> (from.x - 1), static_cast <uint8_t> (from.y + 2) } });
 		}
 
 		break;
