@@ -16,6 +16,8 @@ namespace core::board
     {
     private:
         core::board::side _side = core::board::side::WHITE;
+        core::board::point w_king_pos = { 5, 1 };
+        core::board::point b_king_pos = { 5, 8 };
         core::board::pieces _pieces = {
             core::board::piece(core::board::piece::ROOK, core::board::side::BLACK),
             core::board::piece(core::board::piece::KNIGHT, core::board::side::BLACK),
@@ -93,12 +95,17 @@ namespace core::board
         core::board::piece last_piece;
 
         bool _is_bad_move(move) const;
-        bool _pawn_ckeck(move) const;
-        bool _knight_ckeck(move) const;
-        bool _king_ckeck(move) const;
-        bool _rook_ckeck(move) const;
-        bool _bishop_ckeck(move) const;
-        bool _queen_ckeck(move) const;
+
+        bool _is_shah(move) const;
+        bool _pawn_check(move) const;
+        bool _knight_check(move) const;
+        bool _king_check(move) const;
+        bool _rook_check(move) const;
+        bool _bishop_check(move) const;
+        bool _queen_check(move) const;
+
+        bool _pawn_attack_filter(core::board::move move) const;
+        std::vector<core::board::move> attacks() const;
 
         core::board::point _n2xy(core::board::pieces::size_type n) const;
         core::board::pieces::size_type _xy2n(core::board::point xy) const;

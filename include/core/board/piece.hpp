@@ -37,7 +37,8 @@ namespace core::board
         piece(const char &an);
         piece(const piece &other);
         piece(piece_t piece, core::board::side side);
-        piece operator=(const core::board::piece &other);
+        piece operator=(const piece &other);
+        bool operator==(const piece& other) const;
         bool is_my(core::board::side side) const;
         bool was_moving() const;
         piece_t get_piece_t() const;
