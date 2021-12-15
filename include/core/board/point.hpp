@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <string>
 
 namespace core::board
 {
@@ -10,5 +11,6 @@ namespace core::board
         uint8_t y;
 
         bool operator==(const point &other) const;
+        std::string to_string();
     };
 } // namespace core::board

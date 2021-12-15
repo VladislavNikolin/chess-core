@@ -2,6 +2,7 @@
 
 #include <array>
 #include <cstdint>
+#include <string>
 #include <vector>
 
 #include "core/board/move.hpp"
@@ -83,6 +84,7 @@ namespace core::board
         };
 
     public:
+        position(std::string fen);
         void apply(core::board::move move);
         std::vector<core::board::move> moves() const;
 
