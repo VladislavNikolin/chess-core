@@ -11,16 +11,18 @@ core::board::position::position(std::string fen) : last_move("e2e4")
     fen_ss >> position >> color >> castling >> en_passant >> halfmove >> fullmove;
 
     int i = 0;
-    for (auto row : ranges::views::split(position, "/"))
-    {
-        for (auto piece : row)
-        {
-            if (std::isdigit(piece)) // empty cells
-                i += std::stoi(std::to_string(piece));
-            else
-                _pieces[i++] = core::board::piece(piece);
-        }
-    }
+    for (auto piece : position)
+	{
+		if (piece == '/')
+			continue;
+
+		if (std::isdigit(piece)) { // empty cells 
+			int n = std::stoi(std::string(1, piece));
+			i += n;
+		}
+		else
+			_pieces[i++] = core::board::piece(piece);
+	}
     _side = (color == "w") ? core::board::side::WHITE : core::board::side::BLACK;
 }
 
@@ -140,7 +142,7 @@ bool core::board::position::_is_bad_move(core::board::move move) const
 	case core::board::piece::KNIGHT:
 		return !_knight_check(move);
 	case core::board::piece::PAWN:
-		return !_pawn_check(move);
+		return _pawn_check(move);
 	}
 
 	return false;

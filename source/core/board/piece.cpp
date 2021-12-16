@@ -197,11 +197,6 @@ std::vector<core::board::move> core::board::piece::get_moves(core::board::point 
 			moves.push_back(core::board::move(from, {from.x(), static_cast<uint8_t>(from.y() + 1)}));
 			if (from.y() == min_pos + 1)
 				moves.push_back(core::board::move(from, {from.x(), static_cast<uint8_t>(from.y() + 2)}));
-
-			if (from.x() != min_pos)
-				moves.push_back(core::board::move(from, {static_cast<uint8_t>(from.x() - 1), static_cast<uint8_t>(from.y() + 1)}));
-			if (from.x() != max_pos)
-				moves.push_back(core::board::move(from, {static_cast<uint8_t>(from.x() + 1), static_cast<uint8_t>(from.y() + 1)}));
 		}
 
 		if (_side == core::board::side::BLACK)
@@ -209,11 +204,6 @@ std::vector<core::board::move> core::board::piece::get_moves(core::board::point 
 			moves.push_back(core::board::move(from, {from.x(), static_cast<uint8_t>(from.y() - 1)}));
 			if (from.y() == max_pos - 1)
 				moves.push_back(core::board::move(from, {from.x(), static_cast<uint8_t>(from.y() - 2)}));
-
-			if (from.x() != min_pos)
-				moves.push_back(core::board::move(from, {static_cast<uint8_t>(from.x() - 1), static_cast<uint8_t>(from.y() - 1)}));
-			if (from.x() != max_pos)
-				moves.push_back(core::board::move(from, {static_cast<uint8_t>(from.x() + 1), static_cast<uint8_t>(from.y() - 1)}));
 		}
 		break;
 	}

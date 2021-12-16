@@ -46,7 +46,7 @@ void uci::server::start()
 
             request_ss >> fen_or_startpos;
             if (fen_or_startpos == "fen")
-                std::cin >> position >> color >> castling >> en_passant >> halfmove >> fullmove;
+                request_ss >> position >> color >> castling >> en_passant >> halfmove >> fullmove;
 
             moves.clear();
             std::string moves_or_eol;
@@ -55,7 +55,7 @@ void uci::server::start()
                     moves.push_back(move);
             fen = position + " " + color + " " + castling + " " + en_passant + " " + halfmove + " " + fullmove;
         }
-        else if (cmd == "go")
+        else if (cmd == "go" || cmd == "position")
             response_ss << "bestmove " << _bestmove(fen, moves);
         else if (cmd == "quit")
             return;
