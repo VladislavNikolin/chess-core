@@ -5,12 +5,20 @@
 
 namespace core::board
 {
-    struct point
+    class point
     {
-        uint8_t x;
-        uint8_t y;
+    private:
+        uint8_t _x;
+        uint8_t _y;
 
+    public:
+        point(uint8_t x, uint8_t y);
+        point(const std::string &an);
         bool operator==(const point &other) const;
-        std::string to_string();
+        uint8_t &x();
+        uint8_t &y();
+        const uint8_t &x() const;
+        const uint8_t &y() const;
+        std::string to_string() const;
     };
 } // namespace core::board

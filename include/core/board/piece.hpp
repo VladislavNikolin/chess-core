@@ -41,6 +41,7 @@ namespace core::board
         bool operator==(const piece& other) const;
         bool is_my(core::board::side side) const;
         bool was_moving() const;
+        void change_moving();
         piece_t get_piece_t() const;
         std::vector<core::board::move> get_moves(core::board::point from) const;
     };
