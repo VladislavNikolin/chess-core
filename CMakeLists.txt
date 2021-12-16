@@ -17,6 +17,13 @@ target_link_libraries(core
     range-v3::range-v3
 )
 
+file(GLOB_RECURSE UCI_SRC CONFIGURE_DEPENDS "uci/*.hpp" "uci/*.cpp")
+add_executable(uci ${UCI_SRC})
+target_link_libraries(uci
+  PRIVATE
+    core
+)
+
 enable_testing()
 
 include(GoogleTest)

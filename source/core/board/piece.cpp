@@ -4,6 +4,61 @@ core::board::piece::piece()
 {
 }
 
+core::board::piece::piece(const char &an)
+{
+    switch (an)
+    {
+    case 'k':
+        _piece = KING;
+        _side = core::board::side::BLACK;
+        break;
+    case 'K':
+        _piece = KING;
+        _side = core::board::side::WHITE;
+        break;
+    case 'q':
+        _piece = QUEEN;
+        _side = core::board::side::BLACK;
+        break;
+    case 'Q':
+        _piece = QUEEN;
+        _side = core::board::side::WHITE;
+        break;
+    case 'r':
+        _piece = ROOK;
+        _side = core::board::side::BLACK;
+        break;
+    case 'R':
+        _piece = ROOK;
+        _side = core::board::side::WHITE;
+        break;
+    case 'b':
+        _piece = BISHOP;
+        _side = core::board::side::BLACK;
+        break;
+    case 'B':
+        _piece = BISHOP;
+        _side = core::board::side::WHITE;
+        break;
+    case 'n':
+        _piece = KNIGHT;
+        _side = core::board::side::BLACK;
+        break;
+    case 'N':
+        _piece = KNIGHT;
+        _side = core::board::side::WHITE;
+        break;
+    case 'p':
+        _piece = PAWN;
+        _side = core::board::side::BLACK;
+        break;
+    case 'P':
+        _piece = PAWN;
+        _side = core::board::side::WHITE;
+        break;
+    }
+}
+
 core::board::piece::piece(const piece &other) : _piece(other._piece), _side(other._side)
 {
 }
@@ -14,11 +69,11 @@ core::board::piece::piece(piece_t piece, core::board::side side) : _piece(piece)
 
 core::board::piece core::board::piece::operator=(const core::board::piece &other)
 {
-	_piece = other._piece;
-	_side = other._side;
-	moving = other.moving;
+    _piece = other._piece;
+    _side = other._side;
+    moving = other.moving;
 
-	return *this;
+    return *this;
 }
 
 bool core::board::piece::operator==(const piece& other) const 
@@ -28,17 +83,17 @@ bool core::board::piece::operator==(const piece& other) const
 
 bool core::board::piece::is_my(core::board::side side) const
 {
-	return side == _side;
+    return side == _side;
 }
 
 core::board::piece::piece_t core::board::piece::get_piece_t() const
 {
-	return _piece;
+    return _piece;
 }
 
 bool core::board::piece::was_moving() const
 {
-	return moving;
+    return moving;
 }
 
 std::vector<core::board::move> core::board::piece::get_moves(core::board::point from) const

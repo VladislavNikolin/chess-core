@@ -1,12 +1,34 @@
+#include <sstream>
+
 #include "core/board/position.hpp"
 
 #include "range/v3/view.hpp"
 
+core::board::position::position(std::string fen)
+{
+    std::stringstream fen_ss(fen);
+    std::string position, color, castling, en_passant, halfmove, fullmove;
+    fen_ss >> position >> color >> castling >> en_passant >> halfmove >> fullmove;
+
+    int i = 0;
+    for (auto row : ranges::views::split(position, "/"))
+    {
+        for (auto piece : row)
+        {
+            if (std::isdigit(piece)) // empty cells
+                i += std::stoi(std::to_string(piece));
+            else
+                _pieces[i++] = core::board::piece(piece);
+        }
+    }
+    _side = (color == "w") ? core::board::side::WHITE : core::board::side::BLACK;
+}
+
 void core::board::position::apply(core::board::move move)
 {
-	_side = !_side;
-	core::board::pieces::size_type n = _xy2n(move.from);
-	last_piece = _pieces[n];
+    _side = !_side;
+    core::board::pieces::size_type n = _xy2n(move.from);
+    last_piece = _pieces[n];
 
 	if (_pieces[_xy2n({ move.from.x, move.from.y })].get_piece_t() == core::board::piece::KING && _side == core::board::side::WHITE) {
 		w_king_pos.x = move.to.x;
@@ -20,13 +42,13 @@ void core::board::position::apply(core::board::move move)
 
 	_pieces[n] = core::board::piece(core::board::piece::NONE, core::board::side::NONE);
 
-	n = _xy2n(move.to);
+    n = _xy2n(move.to);
 
-	_pieces[n] = last_piece;
+    _pieces[n] = last_piece;
 
-	//рокировка и взятие на проходе
+    //рокировка и взятие на проходе
 
-	last_move = move;
+    last_move = move;
 }
 
 std::vector<core::board::move> core::board::position::moves() const
@@ -79,6 +101,7 @@ bool core::board::position::_pawn_attack_filter(core::board::move move) const
 
 bool core::board::position::_is_bad_move(core::board::move move) const
 {
+
 	switch (_pieces[_xy2n({ move.from.x, move.from.y })].get_piece_t())
 	{
 	case core::board::piece::NONE:
@@ -124,6 +147,7 @@ bool core::board::position::_is_shah(core::board::move move) const
 
 bool core::board::position::_pawn_check(core::board::move move) const
 {
+
 	core::board::pieces::size_type from_n = _xy2n(move.from);
 	core::board::pieces::size_type to_n = _xy2n(move.to);
 
@@ -161,7 +185,7 @@ bool core::board::position::_pawn_check(core::board::move move) const
 
 bool core::board::position::_knight_check(core::board::move move) const
 {
-	return false;
+    return false;
 }
 
 bool core::board::position::_king_check(core::board::move move) const
@@ -179,6 +203,7 @@ bool core::board::position::_king_check(core::board::move move) const
 
 bool core::board::position::_rook_check(core::board::move move) const
 {
+
 	int max;
 	int min;
 
@@ -220,6 +245,7 @@ bool core::board::position::_rook_check(core::board::move move) const
 
 bool core::board::position::_bishop_check(core::board::move move) const
 {
+
 	if (move.from.x < move.to.x) {
 		if (move.from.y < move.to.y) {
 			for (uint8_t i = 1; i < move.to.y - move.from.y; i++) {
@@ -255,10 +281,10 @@ bool core::board::position::_queen_check(core::board::move move) const
 
 core::board::point core::board::position::_n2xy(core::board::pieces::size_type n) const
 {
-	return core::board::point{ (uint8_t)(n % 8), (uint8_t)(n / 8) };
+    return core::board::point{(uint8_t)(n % 8), (uint8_t)(n / 8)};
 }
 
 core::board::pieces::size_type core::board::position::_xy2n(core::board::point xy) const
 {
-	return xy.y * 8 + xy.x - 1;
+    return xy.y * 8 + xy.x - 1;
 }

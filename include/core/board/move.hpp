@@ -1,6 +1,6 @@
 #pragma once
 
-#include <tuple>
+#include <string>
 
 #include "core/board/point.hpp"
 
@@ -13,5 +13,6 @@ namespace core::board
         core::board::point to;
 
         bool operator==(const move &other) const;
+        std::string toAN();
     };
 } // namespace core::board

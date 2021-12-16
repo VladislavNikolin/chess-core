@@ -34,6 +34,7 @@ namespace core::board
 
     public:
         piece();
+        piece(const char &an);
         piece(const piece &other);
         piece(piece_t piece, core::board::side side);
         piece operator=(const piece &other);
