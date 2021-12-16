@@ -12,5 +12,7 @@ uci::log::~log()
 
 std::ostream &uci::log::operator<<(const std::string &message)
 {
-    return ofile << message << std::endl;
+    ofile << message;
+    ofile.flush();
+    return ofile;
 }

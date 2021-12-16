@@ -3,10 +3,10 @@
 
 TEST(CoreBoardMoveTest, ToANFunc)
 {
-	core::board::move move {
-			.from = core::board::point {.x = 5, .y = 2},
-			.to = core::board::point {.x = 5, .y = 4}
-	};
+	core::board::move move(
+		core::board::point(5, 2),
+		core::board::point(5, 4)
+	);
 
 	EXPECT_EQ(move.toAN(), "e2e4");
 }

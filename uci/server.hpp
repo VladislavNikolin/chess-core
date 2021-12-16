@@ -4,6 +4,7 @@
 #include <functional>
 #include <string>
 #include <tuple>
+#include <vector>
 
 #include "log.hpp"
 
@@ -12,7 +13,7 @@ namespace uci
     class server
     {
     public:
-        using bestmove_handler = std::function<std::string(std::string)>;
+        using bestmove_handler = std::function<std::string(std::string, std::vector<std::string>)>;
 
     private:
         // enum cmd : uint8_t

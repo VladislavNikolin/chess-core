@@ -91,18 +91,18 @@ namespace core::board
         std::vector<core::board::move> moves() const;
 
     private:
-        move last_move;
+        core::board::move last_move;
         core::board::piece last_piece;
 
-        bool _is_bad_move(move) const;
+        bool _is_bad_move(core::board::move) const;
 
-        bool _is_shah(move) const;
-        bool _pawn_check(move) const;
-        bool _knight_check(move) const;
-        bool _king_check(move) const;
-        bool _rook_check(move) const;
-        bool _bishop_check(move) const;
-        bool _queen_check(move) const;
+        bool _is_shah(core::board::move) const;
+        bool _pawn_check(core::board::move) const;
+        bool _knight_check(core::board::move) const;
+        bool _king_check(core::board::move) const;
+        bool _rook_check(core::board::move) const;
+        bool _bishop_check(core::board::move) const;
+        bool _queen_check(core::board::move) const;
 
         bool _pawn_attack_filter(core::board::move move) const;
         std::vector<core::board::move> attacks() const;
