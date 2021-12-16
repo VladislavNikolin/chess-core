@@ -28,6 +28,7 @@ void core::board::position::apply(core::board::move move)
 {  
     core::board::pieces::size_type n = _xy2n(move.from);
     last_piece = _pieces[n];
+	
 	_pieces[n].change_moving();
 
 	if (_pieces[_xy2n({ move.from.x, move.from.y })].get_piece_t() == core::board::piece::KING && _side == core::board::side::WHITE) {
@@ -50,7 +51,7 @@ void core::board::position::apply(core::board::move move)
 		_pieces[_xy2n({ 8, move.from.y })] = core::board::piece(core::board::piece::NONE, core::board::side::NONE);
 	}
 
-	if (_pieces[_xy2n({ move.to.x, move.to.y })].get_piece_t() == core::board::piece::PAWN && _pieces[n].get_piece_t() == core::board::piece::PAWN
+	if (_pieces[_xy2n({ move.to.x, move.to.y })].get_piece_t() == core::board::piece::NONE && _pieces[n].get_piece_t() == core::board::piece::PAWN
 		&& move.to.x != move.from.x) {
 		if (_side == core::board::side::WHITE) {
 			_pieces[_xy2n({ move.to.x, static_cast <uint8_t> (move.to.y - 1 )})] = core::board::piece(core::board::piece::NONE, core::board::side::NONE);
@@ -59,6 +60,7 @@ void core::board::position::apply(core::board::move move)
 			_pieces[_xy2n({ move.to.x, static_cast <uint8_t> (move.to.y + 1) })] = core::board::piece(core::board::piece::NONE, core::board::side::NONE);
 		}
 	}
+	
 
 	_pieces[n] = core::board::piece(core::board::piece::NONE, core::board::side::NONE);
 
@@ -121,27 +123,27 @@ bool core::board::position::_pawn_attack_filter(core::board::move move) const
 
 bool core::board::position::_is_bad_move(core::board::move move) const
 {
-	if (_pieces[_xy2n({ move.to.x, move.to.y })].is_my(_side)) return true;
+	if (_pieces[_xy2n({ move.to.x, move.to.y })].is_my(_side)) return false;
 
 	switch (_pieces[_xy2n({ move.from.x, move.from.y })].get_piece_t())
 	{
 	case core::board::piece::NONE:
-		return true;
+		return false;
 	case core::board::piece::KING:
-		return _king_check(move);
+		return !_king_check(move);
 	case core::board::piece::QUEEN:
-		return _queen_check(move);
+		return !_queen_check(move);
 	case core::board::piece::ROOK:
-		return _rook_check(move);
+		return !_rook_check(move);
 	case core::board::piece::BISHOP:
-		return _bishop_check(move);
+		return !_bishop_check(move);
 	case core::board::piece::KNIGHT:
-		return _knight_check(move);
+		return !_knight_check(move);
 	case core::board::piece::PAWN:
-		return _pawn_check(move);
+		return !_pawn_check(move);
 	}
 
-	return true;
+	return false;
 }
 
 bool core::board::position::_is_shah(core::board::move move) const
@@ -306,10 +308,10 @@ bool core::board::position::_queen_check(core::board::move move) const
 
 core::board::point core::board::position::_n2xy(core::board::pieces::size_type n) const
 {
-    return core::board::point{(uint8_t)(n % 8), (uint8_t)(n / 8)};
+    return core::board::point{(uint8_t)(n % 8 + 1), (uint8_t)(8 - n / 8)};
 }
 
 core::board::pieces::size_type core::board::position::_xy2n(core::board::point xy) const
 {
-    return xy.y * 8 + xy.x - 1;
+    return 63 - (xy.y) * 8 + xy.x;
 }
